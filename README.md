@@ -1,1 +1,1 @@
-# internship_skill_analysis
+The goal of this project is to collect, clean and analyze data about Data Science and Computer Science internship listings. I will use webscraping, NLP and statistical visualization.
