@@ -1,13 +1,35 @@
 import os
 import pandas as pd
+import re
+
+def is_early_career(title, level):
+    if not isinstance(title, str):
+        title = ""
+    if not isinstance(level, str):
+        level = ""
+    t = title.lower()
+    l = level.lower()
+    title_hits = [
+        "intern", "internship", "co-op", "coop", "student",
+        "new grad", "new graduate", "early career",
+        "entry level", "entry-level",
+        "junior", "jr"
+    ]
+    level_hits = ["internship", "entry level", "associate", "junior"]
+    return any(k in t for k in title_hits) or any(k in l for k in level_hits)
 
 postings = pd.read_csv("data/job_postings.csv")
 skills = pd.read_csv("data/job_skills.csv")
 summary = pd.read_csv("data/job_summary.csv")
-intern_postings = postings[postings["job_title"].str.contains("intern", case=False, na=False)].copy()
-print("Intern postings:", len(intern_postings), "out of", len(postings))
 
-merged = intern_postings.merge(skills, on="job_link", how="left")
+early_postings = postings[
+    postings.apply(
+        lambda r: is_early_career(r["job_title"], r["job_level"]),
+        axis=1
+    )
+].copy()
+print("Early-career postings:", len(early_postings), "out of", len(postings))
+merged = early_postings.merge(skills, on="job_link", how="left")
 merged = merged.merge(summary, on="job_link", how="left")
 os.makedirs("data/cleaned", exist_ok=True)
 merged.to_csv("data/cleaned/internships_full.csv", index=False)
