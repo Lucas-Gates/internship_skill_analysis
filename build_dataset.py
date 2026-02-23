@@ -18,6 +18,15 @@ merged["job_skills"] = merged["job_skills"].str.split(",")
 
 exploded = merged.explode("job_skills").copy()
 exploded["job_skills"] = exploded["job_skills"].astype(str).str.strip()
+exploded["job_skills"] = exploded["job_skills"].str.title()
+skill_map = {
+    "Data Analysis": "Data Analysis",
+    "Data analysis": "Data Analysis",
+    "Data Analytics": "Data Analysis",
+    "Powerbi": "Power BI",
+    "Powerbi ": "Power BI",
+}
+exploded["job_skills"] = exploded["job_skills"].replace(skill_map)
 exploded = exploded[exploded["job_skills"] != ""]
 
 exploded.to_csv("data/cleaned/internships_exploded.csv", index=False)
