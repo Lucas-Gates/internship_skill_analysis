@@ -2,6 +2,47 @@ import os
 import pandas as pd
 import re
 
+ALIASES = {
+    # SQL
+    "Sql": "SQL",
+    "Sql ": "SQL",
+    "Sql Server": "SQL",
+    # Power BI
+    "Powerbi": "Power BI",
+    "Powerbi ": "Power BI",
+    "Power Bi": "Power BI",
+    # Data Analysis
+    "Data Analytics": "Data Analysis",
+    "Data analysis": "Data Analysis",
+    # Communication
+    "Communication Skills": "Communication",
+    # ML variants
+    "Ml": "Machine Learning",
+    # Capitalization fixes
+    "Aws": "AWS",
+    "Gcp": "GCP",
+    "Azure": "Azure",
+    # skills
+    "Problem Solving": "Problem Solving",
+    "Analytical Skills": "Analytical Skills",
+    "Attention To Detail": "Attention To Detail",
+    "Communication Skill": "Communication",
+    "Communication Skills": "Communication",
+}
+
+def clean_skill(skill):
+    if not isinstance(skill, str):
+        return ""
+
+    skill = skill.strip()
+
+    if skill == "":
+        return ""
+    skill = re.sub(r"\s+", " ", skill)
+    skill = skill.title()
+    skill = ALIASES.get(skill, skill)
+    return skill
+
 def is_early_career(title, level):
     if not isinstance(title, str):
         title = ""
@@ -18,9 +59,9 @@ def is_early_career(title, level):
     level_hits = ["internship", "entry level", "associate", "junior"]
     return any(k in t for k in title_hits) or any(k in l for k in level_hits)
 
-postings = pd.read_csv("data/job_postings.csv")
-skills = pd.read_csv("data/job_skills.csv")
-summary = pd.read_csv("data/job_summary.csv")
+postings = pd.read_csv("data/raw/job_postings.csv")
+skills = pd.read_csv("data/raw/job_skills.csv")
+summary = pd.read_csv("data/raw/job_summary.csv")
 
 early_postings = postings[
     postings.apply(
@@ -39,17 +80,9 @@ merged["job_skills"] = merged["job_skills"].fillna("")
 merged["job_skills"] = merged["job_skills"].str.split(",")
 
 exploded = merged.explode("job_skills").copy()
-exploded["job_skills"] = exploded["job_skills"].astype(str).str.strip()
-exploded["job_skills"] = exploded["job_skills"].str.title()
-skill_map = {
-    "Data Analysis": "Data Analysis",
-    "Data analysis": "Data Analysis",
-    "Data Analytics": "Data Analysis",
-    "Powerbi": "Power BI",
-    "Powerbi ": "Power BI",
-}
-exploded["job_skills"] = exploded["job_skills"].replace(skill_map)
+exploded["job_skills"] = exploded["job_skills"].map(clean_skill)
 exploded = exploded[exploded["job_skills"] != ""]
+
 
 exploded.to_csv("data/cleaned/internships_exploded.csv", index=False)
 print("Saved: data/cleaned/internships_exploded.csv  shape =", exploded.shape)
