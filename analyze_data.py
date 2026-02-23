@@ -16,3 +16,7 @@ print("\nSummary:")
 print(summary.columns)
 print(summary.head())
 print(summary.info())
+
+# postings = postings[postings["job_title"].str.contains("intern", case=False, na=False)]
+# merged = postings.merge(skills, on="job_id")
+# merged.to_csv("data/cleaned/internship_jobs_with_skills.csv", index=False)
