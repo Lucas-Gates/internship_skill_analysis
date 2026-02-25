@@ -98,3 +98,31 @@ print("\nSkill category counts:\n")
 print(category_counts)
 
 category_counts.to_csv("data/cleaned/skill_category_counts.csv")
+
+job_category = exploded[["job_link", "skill_category"]].drop_duplicates()
+
+jobs_per_category = (
+    job_category.groupby("skill_category")["job_link"]
+    .nunique()
+    .sort_values(ascending=False)
+)
+
+total_jobs = exploded["job_link"].nunique()
+
+category_share_df = (jobs_per_category / total_jobs * 100).round(1).reset_index()
+category_share_df.columns = ["skill_category", "percent_of_postings"]
+
+print("\nPercent of postings mentioning each category:\n")
+print(category_share_df)
+
+category_share_df.to_csv("data/cleaned/skill_category_share.csv", index=False)
+
+top_by_category = (
+    exploded.groupby(["skill_category", "job_skills"])
+    .size()
+    .reset_index(name="count")
+    .sort_values(["skill_category", "count"], ascending=[True, False])
+)
+
+top_by_category.to_csv("data/cleaned/top_skills_by_category.csv", index=False)
+print("\nSaved top skills by category -> data/cleaned/top_skills_by_category.csv")
