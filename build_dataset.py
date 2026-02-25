@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 import re
+from skill_sorting import categorize_skill
 
 ALIASES = {
     # SQL
@@ -83,6 +84,7 @@ exploded = merged.explode("job_skills").copy()
 exploded["job_skills"] = exploded["job_skills"].map(clean_skill)
 exploded = exploded[exploded["job_skills"] != ""]
 
+exploded["skill_category"] = exploded["job_skills"].map(categorize_skill)
 
 exploded.to_csv("data/cleaned/internships_exploded.csv", index=False)
 print("Saved: data/cleaned/internships_exploded.csv  shape =", exploded.shape)
@@ -90,3 +92,9 @@ print("Saved: data/cleaned/internships_exploded.csv  shape =", exploded.shape)
 top_skills = exploded["job_skills"].value_counts().head(20)
 print("\nTop 20 skills in internships:\n")
 print(top_skills)
+
+category_counts = exploded["skill_category"].value_counts()
+print("\nSkill category counts:\n")
+print(category_counts)
+
+category_counts.to_csv("data/cleaned/skill_category_counts.csv")
