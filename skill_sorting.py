@@ -1,22 +1,32 @@
 import re
 
+import re
+
 CATEGORY_RULES = [
-    #languages
-    ("Language", re.compile(r"^(Python|R|Java|C\+\+|C#|Javascript|TypeScript|Scala|Go|Rust|Php)$", re.I)),
-    #databases / query
-    ("Database", re.compile(r"^(SQL|PostgreSQL|MySQL|SQLite|Oracle|Snowflake|Redshift|BigQuery|MongoDB|NoSQL)$", re.I)),
-    #cloud / platforms
-    ("Cloud", re.compile(r"^(AWS|Azure|GCP|Databricks)$", re.I)),
-    #visualization / bi
-    ("Visualization", re.compile(r"^(Tableau|Power BI|Excel|Looker|Qlik|Matplotlib|Seaborn)$", re.I)),
-    #ml/ai
-    ("ML/AI", re.compile(r"^(Machine Learning|Deep Learning|Artificial Intelligence|NLP|Computer Vision|PyTorch|TensorFlow|scikit-learn)$", re.I)),
-    #data engineering / pipelines
-    ("Data Engineering", re.compile(r"^(ETL|Data Engineering|Data Pipeline|Airflow|Spark|Kafka|Hadoop|dbt)$", re.I)),
-    #stats / math
-    ("Stats/Math", re.compile(r"^(Statistics|Mathematics|Probability|Regression|A/B Testing|Experimentation)$", re.I)),
-    #soft skills
-    ("Soft Skill", re.compile(r"^(Communication|Teamwork|Problem Solving|Project Management|Attention To Detail|Analytical Skills|Leadership|Time Management)$", re.I)),
+
+    # Programming Languages
+    ("Language", re.compile(r"\b(python|r|java|c\+\+|c#|javascript|typescript|scala|go|rust|php)\b", re.I)),
+
+    # Databases / SQL
+    ("Database", re.compile(r"\b(sql|postgres|mysql|sqlite|oracle|snowflake|redshift|bigquery|mongodb|nosql|sql server)\b", re.I)),
+
+    # Cloud / Infrastructure
+    ("Cloud", re.compile(r"\b(aws|azure|gcp|cloud computing|databricks)\b", re.I)),
+
+    # Visualization / BI
+    ("Visualization", re.compile(r"\b(tableau|power bi|excel|looker|qlik|powerpoint|reporting|business intelligence)\b", re.I)),
+
+    # ML / AI
+    ("ML/AI", re.compile(r"\b(machine learning|deep learning|artificial intelligence|nlp|computer vision|pytorch|tensorflow|scikit|data mining)\b", re.I)),
+
+    # Data Engineering
+    ("Data Engineering", re.compile(r"\b(etl|data pipeline|pipelines|airflow|spark|kafka|hadoop|dbt|data warehousing|data integration|data transformation)\b", re.I)),
+
+    # Statistics / Math
+    ("Stats/Math", re.compile(r"\b(statistics|statistical analysis|mathematics|probability|regression|experimentation|a/b testing)\b", re.I)),
+
+    # Soft Skills
+    ("Soft Skill", re.compile(r"\b(communication|teamwork|problem solving|analytical skills|attention to detail|leadership|time management|interpersonal skills|collaboration|critical thinking|presentation skills|written communication|verbal communication|adaptability|multitasking|organizational skills)\b", re.I)),
 ]
 
 def categorize_skill(skill):
