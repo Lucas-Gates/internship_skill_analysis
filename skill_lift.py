@@ -40,6 +40,9 @@ for (a, b), pair_count in pair_counts.items():
     rows.append((a, b, pair_count, round(lift, 2)))
 
 lift_df = pd.DataFrame(rows, columns=["skill_a", "skill_b", "count", "lift"])
+# Filter out rare pairs (support threshold)
+lift_df = lift_df[lift_df["count"] >= 20]
+
 lift_df = lift_df.sort_values("lift", ascending=False)
 
 lift_df.to_csv("data/cleaned/skill_lift.csv", index=False)
