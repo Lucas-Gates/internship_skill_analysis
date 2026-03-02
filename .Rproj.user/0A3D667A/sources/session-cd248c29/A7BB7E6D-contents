@@ -1,0 +1,20 @@
+library(tidyverse)
+
+exploded = read_csv("data/cleaned/internships_exploded.csv")
+
+top_skills = exploded %>%
+  count(job_skills, sort = TRUE) %>%
+  slice_head(n = 20) %>%
+  arrange(n)
+
+p = ggplot(top_skills, aes(x = n, y = reorder(job_skills, n))) +
+  geom_col() +
+  labs(
+    title = "Top 20 Skills in Early-Career Data Roles",
+    x = "Count (mentions across postings)",
+    y = "Skill"
+  ) +
+  theme_minimal()
+
+print(p)
+ggsave("report/figures/top_20_skills.png", p, width = 9, height = 7)
