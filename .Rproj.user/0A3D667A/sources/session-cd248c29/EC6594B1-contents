@@ -1,0 +1,23 @@
+library(tidyverse)
+
+top_by_cat = read_csv("data/cleaned/top_skills_by_category.csv")
+
+# pick top 5 per category (excluding Other)
+plot_df = top_by_cat %>%
+  filter(skill_category != "Other") %>%
+  group_by(skill_category) %>%
+  slice_max(order_by = count, n = 5, with_ties = FALSE) %>%
+  ungroup()
+
+p = ggplot(plot_df, aes(x = count, y = reorder(job_skills, count))) +
+  geom_col() +
+  facet_wrap(~ skill_category, scales = "free_y") +
+  labs(
+    title = "Top Skills Within Each Category",
+    x = "Count",
+    y = "Skill"
+  ) +
+  theme_minimal()
+
+print(p)
+ggsave("report/figures/top_skills_by_category.png", p, width = 12, height = 8)
