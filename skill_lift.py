@@ -4,6 +4,19 @@ from collections import Counter
 
 df = pd.read_csv("data/cleaned/internships_exploded.csv")
 
+# Keep only technical categories
+TECH_CATEGORIES = [
+    "Language",
+    "Database",
+    "Visualization",
+    "ML/AI",
+    "Data Engineering",
+    "Cloud",
+    "Stats/Math"
+]
+
+df = df[df["skill_category"].isin(TECH_CATEGORIES)]
+
 total_jobs = df["job_link"].nunique()
 
 # Skills per job
