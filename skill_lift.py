@@ -58,6 +58,23 @@ lift_df = lift_df[lift_df["count"] >= 20]
 
 lift_df = lift_df.sort_values("lift", ascending=False)
 
+CLOUD_SKILLS = ["AWS", "Azure", "GCP"]
+
+lift_df = lift_df[
+    ~(
+        lift_df["skill_a"].isin(CLOUD_SKILLS) &
+        lift_df["skill_b"].isin(CLOUD_SKILLS)
+    )
+]
+
+# Keep only lift > 5 for interpretability
+lift_df = lift_df[lift_df["lift"] > 5]
+
+lift_df = lift_df.sort_values("lift", ascending=False)
+
+print("\nTop Technical Stacks (Filtered):\n")
+print(lift_df.head(15))
+
 lift_df.to_csv("data/cleaned/skill_lift.csv", index=False)
 
 print("Saved: data/cleaned/skill_lift.csv")
