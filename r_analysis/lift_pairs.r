@@ -1,0 +1,21 @@
+library(tidyverse)
+
+lift <- read_csv("data/cleaned/skill_lift.csv")
+
+top_lift <- lift %>%
+  arrange(desc(lift)) %>%
+  slice_head(n = 15) %>%
+  mutate(pair = paste(skill_a, "+", skill_b)) %>%
+  arrange(lift)
+
+p <- ggplot(top_lift, aes(x = lift, y = reorder(pair, lift))) +
+  geom_col() +
+  labs(
+    title = "Top Technical Skill Pairs (Lift: More-Than-Expected Co-Occurrence)",
+    x = "Lift",
+    y = "Skill pair"
+  ) +
+  theme_minimal()
+
+print(p)
+ggsave("report/figures/top_lift_pairs.png", p, width = 10, height = 7)
