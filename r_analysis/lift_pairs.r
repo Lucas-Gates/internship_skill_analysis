@@ -1,5 +1,5 @@
 library(tidyverse)
-source("r_analysis/theme.R")
+source("r_analysis/theme.r")
 
 lift = read_csv("data/cleaned/skill_lift.csv")
 

@@ -1,0 +1,11 @@
+library(ggplot2)
+
+theme_portfolio = function() {
+  theme_minimal(base_size = 14) +
+    theme(
+      plot.title = element_text(face = "bold", size = 18),
+      axis.title = element_text(size = 14),
+      axis.text = element_text(size = 12),
+      panel.grid.minor = element_blank()
+    )
+}

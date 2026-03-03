@@ -3,9 +3,9 @@
     "path": "C:/Users/lucas/Desktop/ISA/r_analysis/results_table.r",
     "project_path": "r_analysis/results_table.r",
     "type": "r_source",
-    "hash": "0",
+    "hash": "1721208330",
     "contents": "",
-    "dirty": true,
+    "dirty": false,
     "created": 1772498596736.0,
     "source_on_save": false,
     "relative_order": 6,
@@ -16,11 +16,11 @@
         "scrollLine": "0"
     },
     "folds": "",
-    "lastKnownWriteTime": 1772498596,
+    "lastKnownWriteTime": 1772507304,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1772498619871,
+    "last_content_update": 1772507304601,
     "read_only": false,
     "read_only_alternatives": []
 }

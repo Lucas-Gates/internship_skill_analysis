@@ -1,5 +1,5 @@
 library(tidyverse)
-source("r_analysis/theme.R")
+source("r_analysis/theme.r")
 
 exploded = read_csv("data/cleaned/internships_exploded.csv")
 

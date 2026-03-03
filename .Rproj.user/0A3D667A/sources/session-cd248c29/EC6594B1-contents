@@ -1,5 +1,5 @@
-source("r_analysis/theme.R")
 library(tidyverse)
+source("r_analysis/theme.r")
 
 top_by_cat = read_csv("data/cleaned/top_skills_by_category.csv")
 
@@ -11,14 +11,20 @@ plot_df = top_by_cat %>%
   ungroup()
 
 p = ggplot(plot_df, aes(x = count, y = reorder(job_skills, count))) +
-  geom_col() +
+  geom_col(aes(fill = skill_category)) +
+  scale_fill_brewer(palette = "Set2") +
+  guides(fill = "none") +
   facet_wrap(~ skill_category, scales = "free_y") +
   labs(
     title = "Top Skills Within Each Category",
     x = "Count",
     y = "Skill"
   ) +
-  theme_minimal()
+  theme_portfolio() +
+  theme(
+    strip.text = element_text(face = "bold"),
+    plot.margin = margin(10, 20, 10, 10)
+  )
 
 print(p)
 ggsave("report/figures/top_skills_by_category.png", p, width = 12, height = 8)
