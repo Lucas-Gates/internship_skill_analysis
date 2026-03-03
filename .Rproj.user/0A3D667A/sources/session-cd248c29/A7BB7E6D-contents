@@ -1,3 +1,4 @@
+source("r_analysis/theme.R")
 library(tidyverse)
 
 exploded = read_csv("data/cleaned/internships_exploded.csv")
